@@ -1,30 +1,30 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from profiles.models import Profile  # Import the Profile model
 
 class Post(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)  # Use Profile instead of User
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)  # Sets the time when the instance is created
-    updated_at = models.DateTimeField(auto_now=True)  # Sets the time whenever the instance is updated
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.content[:50]
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)  # Use Profile instead of User
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Add this line
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.content
 
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)  # Use Profile instead of User
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Add this line
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.user.username

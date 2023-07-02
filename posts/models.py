@@ -2,13 +2,14 @@ from django.db import models
 from profiles.models import Profile  # Import the Profile model
 
 class Post(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE)  # Use Profile instead of User
-    content = models.TextField()
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    content = models.TextField(blank=True)
+    image = models.ImageField(upload_to='posts/', null=True, blank=True) # This field will store the pictures
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.content[:50]
+        return str(self.content)[:50]
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')

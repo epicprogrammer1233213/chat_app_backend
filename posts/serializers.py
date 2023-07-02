@@ -2,11 +2,12 @@ from rest_framework import serializers
 from .models import Post, Comment, Like
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source='author.user.username')  # Refer to user of the profile
+    author = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'author', 'content', 'created_at', 'updated_at']
+        fields = ['id', 'author', 'content', 'image', 'created_at', 'updated_at']
+
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.user.username')  # Refer to user of the profile
